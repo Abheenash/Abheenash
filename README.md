@@ -20,9 +20,13 @@
 
 ### ⭐ Flagship — [Job Hunt Command Center](https://github.com/Abheenash/job-hunt-command-center)
 
-An **AI-powered, serverless job-application tracker** built end-to-end on AWS. Cognito auth and a JWT-authorized API Gateway front a Lambda → DynamoDB + S3 backend (versioned bucket with presigned résumé snapshots), with EventBridge-scheduled Lambdas, Secrets Manager, and SES for email.
+An **AI-powered, full-stack serverless job-application tracker** built end-to-end on AWS, private behind Cognito. A JWT-authorized API Gateway HTTP API fronts a Lambda → DynamoDB + versioned S3 backend — all provisioned in Terraform and shipped through a DevSecOps CI/CD pipeline (gitleaks · Checkov/tfsec · Trivy) via GitHub Actions OIDC.
 
-The intelligence layer runs on **Amazon Bedrock (Claude Haiku)**: it reads the inbox to classify recruiter replies, interviews, and rejections, then **auto-updates and enriches entries** (recruiter, pay, interview date). It also produces a JD↔résumé match score and an **"Ask-AI" Q&A** over your applications. All Terraform, shipped with a DevSecOps CI/CD pipeline (gitleaks · checkov · tfsec · trivy).
+**AI résumé generator** *(headline feature)* — paste a job description and it produces a tailored 2-page résumé as LaTeX plus a server-compiled PDF (bundled tectonic Lambda layer). Model-selectable on **Amazon Bedrock** (Claude Sonnet 4.6 default, Haiku for cheap bulk, Opus for best): the model returns structured JSON that Lambda renders into LaTeX deterministically, so output always compiles and can never fabricate facts outside the candidate's corpus. Includes a weighted match-score rubric, an ATS keyword-match rate, AI-suggested custom fields, auto-fit to 2 pages, and an optional cover letter.
+
+**Event-driven email-intelligence pipeline** — EventBridge → read-only IMAP Scanner Lambda → SQS (+DLQ) → Dispatcher → Step Functions Express (Classify → Enrich). Bedrock classifies recruiter replies, interviews, and rejections, then **auto-advances and enriches** the matching application, with per-message retries and poison-message DLQ isolation. Plus JD field extraction, JD↔résumé match scoring, and a natural-language **"Ask-AI" Q&A** over your applications.
+
+**Self-monitoring** — a CloudWatch golden-signals dashboard, SLO alarms rolled into a composite service-health alarm → SNS, X-Ray tracing on every Lambda and the state machine, per-alarm runbooks, and an AWS Budgets guard on Bedrock spend. A weekly SES digest and conversion analytics (funnel, response rate by source, résumé-match vs. outcome) round it out.
 
 ---
 
@@ -62,8 +66,8 @@ A day-2 operations lab (EC2 ASG + ALB + RDS) with incident drills, RCAs, and res
 <img src="https://img.shields.io/badge/Bash-4EAA25?style=for-the-badge&logo=gnubash&logoColor=white" alt="Bash"/>
 </p>
 
-**Cloud (AWS):** Lambda · API Gateway · S3 · DynamoDB · Cognito · Bedrock · EventBridge · SES · EKS · ECS Fargate · ECR · VPC · ALB · CloudFront · Route 53 · KMS · Secrets Manager · IAM · WAF · CloudWatch · X-Ray · SNS · CloudTrail
-**GenAI:** Amazon Bedrock (Claude Haiku) · LLM classification & enrichment · JD↔résumé match scoring · RAG-style Q&A
+**Cloud (AWS):** Lambda · API Gateway · S3 · DynamoDB · Cognito · Bedrock · EventBridge · SQS · Step Functions · SES · SNS · EKS · ECS Fargate · ECR · VPC · ALB · CloudFront · Route 53 · KMS · Secrets Manager · IAM · WAF · CloudWatch · X-Ray · CloudTrail
+**GenAI:** Amazon Bedrock (Claude Sonnet 4.6 · Haiku · Opus) · AI résumé generation (structured JSON → LaTeX/PDF) · LLM classification & enrichment · JD↔résumé match scoring · RAG-style Q&A
 **Containers & Kubernetes:** Amazon EKS · AWS Load Balancer Controller (IRSA) · HPA autoscaling · ECS Fargate · Docker
 **IaC & CI/CD:** Terraform · GitHub Actions · OIDC (keyless) · branch protection
 **DevSecOps & Security:** IAM least privilege · KMS/SSE encryption · Secrets Manager · WAF · Checkov · tfsec · Trivy · gitleaks
