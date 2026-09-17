@@ -2,7 +2,7 @@
 
 # Hi, I'm Abheenash 👋
 
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&duration=3000&pause=800&color=FF9900&center=true&vCenter=true&width=760&lines=AWS+Certified+Solutions+Architect+%E2%80%93+Associate;Cloud+%C2%B7+DevOps+%C2%B7+Cloud+Security;Serverless+%C2%B7+Kubernetes+%C2%B7+GenAI+on+AWS;Building+%26+operating+secure+infrastructure+on+AWS)](https://abheenash.com)
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&duration=3000&pause=800&color=FF9900&center=true&vCenter=true&width=760&lines=AWS+Certified+DevOps+Engineer+%E2%80%93+Professional;Cloud+%C2%B7+DevOps+%C2%B7+Cloud+Security;Serverless+%C2%B7+Kubernetes+%C2%B7+GenAI+on+AWS;Building%2C+operating+%26+diagnosing+AWS+infrastructure)](https://abheenash.com)
 
 `Cloud` · `DevOps` · `Cloud Security` · `Terraform` · `Serverless` · `Kubernetes` · `GenAI` · `CI/CD`
 
@@ -14,7 +14,7 @@
 
 </div>
 
-**AWS Certified Solutions Architect – Associate & Cloud Practitioner**, building and operating secure, reliable infrastructure on AWS.
+**AWS Certified DevOps Engineer – Professional**, Solutions Architect – Associate & Cloud Practitioner — building, operating and diagnosing secure, reliable infrastructure on AWS.
 
 ---
 
@@ -32,6 +32,9 @@ An **AI-powered, full-stack serverless job-application tracker** built end-to-en
 
 ### ☁️ More AWS projects — build → ship → operate
 
+**[Production Triage Toolkit](https://github.com/Abheenash/production-triage-toolkit)** — *diagnose before users do* · **Java**
+A Java 17 CLI that finds data drift, stuck jobs and database-health problems **before users report them** — 15 read-only SQL diagnostics against PostgreSQL, ranked by severity, each linked to a runbook that says how to confirm, fix, prevent and escalate. Safe to point at production by four independent layers, including asking the server `SHOW transaction_read_only` and closing the connection if the answer isn't `on`. **1,069 ms against 10 million rows** — and 1,228 ms on a single CPU. 163 tests, 5 CI criteria, shipped with validated systemd units, a Kubernetes CronJob and ECS/EventBridge Terraform. [Case study](https://github.com/Abheenash/production-triage-toolkit/blob/main/CASE_STUDY.md) — including the index that made it 4x *slower*.
+
 **[Serverless File Share](https://github.com/Abheenash/serverless-file-share)** — *build securely* · [live demo](https://share.abheenash.com)
 Zero-knowledge, self-destructing file & secret sharing. Payloads are **AES-256-GCM encrypted in the browser** (the key never touches the server), with SSE-KMS defense-in-depth and a DynamoDB **TTL → Streams reaper**. Terraform + keyless CI/CD.
 
@@ -42,12 +45,27 @@ Kubernetes on **Amazon EKS** via Terraform (official VPC + EKS modules), ALB Ing
 A containerized service on **ECS Fargate** behind a DevSecOps GitHub Actions pipeline (gitleaks · checkov/tfsec · trivy) that blocks insecure merges — proven by automatically blocking a PR carrying a planted secret. All Terraform.
 
 **[Cloud Observability & SRE](https://github.com/Abheenash/cloud-observability-sre)** — *operate reliably*
-CloudWatch golden-signals dashboards, X-Ray tracing, SLOs, a Synthetics canary, and RUM — observing his live serverless stack. Terraform.
+CloudWatch golden-signals dashboards, X-Ray tracing, SLOs, a Synthetics canary, and RUM — observing my live serverless stack. Terraform.
 
 **[AWS CloudOps Lab](https://github.com/Abheenash/aws-cloudops-lab)** — *day-2 ops*
 A day-2 operations lab (EC2 ASG + ALB + RDS) with incident drills, RCAs, and restore tests. Terraform.
 
-<sub>Also: **[portfolio-ai-assistant](https://github.com/Abheenash/portfolio-ai-assistant)** — a Bedrock (Claude) chatbot over my portfolio. Systems foundation in C++ concurrency: **parallel-thread-pool**, **parallel-heat-diffusion**, **concurrent-kv-store**.</sub>
+<sub>Also: **[portfolio-ai-assistant](https://github.com/Abheenash/portfolio-ai-assistant)** — a Bedrock (Claude) chatbot over my portfolio.</sub>
+
+---
+
+### ⚙️ Systems & parallel C++ — the layer underneath
+
+**[Parallel Heat Diffusion](https://github.com/Abheenash/parallel-heat-diffusion)** — *std::thread vs OpenMP, head to head*
+A 2D finite-difference stencil on a double-buffered grid, parallelized two ways so the strategies can be benchmarked on identical inputs. Scales 1–8 threads with a **memory-bandwidth-bound analysis** explaining exactly where and why it plateaus.
+
+**[Parallel Thread Pool](https://github.com/Abheenash/parallel-thread-pool)** — *producer–consumer*
+Persistent workers sleeping on a condition variable and waking on demand — no busy-waiting, graceful drain-and-join shutdown. **5.2x speedup at 8 threads**, with an identical checksum across every thread count proving no data races.
+
+**[Concurrent KV Store](https://github.com/Abheenash/concurrent-kv-store)** — *client–server over TCP*
+A multithreaded key-value server on **POSIX sockets**, thread-per-connection with mutex-protected shared state. `SET`/`GET` over the network from many clients at once.
+
+<sub>Contrast worth noting: the thread pool scales near-linearly because it is compute-bound; the stencil plateaus early on the same machine because it is memory-bound. Same hardware, opposite behaviour — which is the point.</sub>
 
 ---
 
@@ -61,6 +79,8 @@ A day-2 operations lab (EC2 ASG + ALB + RDS) with incident drills, RCAs, and res
 <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker"/>
 <img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white" alt="GitHub Actions"/>
 <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python"/>
+<img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java"/>
+<img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL"/>
 <img src="https://img.shields.io/badge/C++-00599C?style=for-the-badge&logo=cplusplus&logoColor=white" alt="C++"/>
 <img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="Linux"/>
 <img src="https://img.shields.io/badge/Bash-4EAA25?style=for-the-badge&logo=gnubash&logoColor=white" alt="Bash"/>
@@ -71,13 +91,14 @@ A day-2 operations lab (EC2 ASG + ALB + RDS) with incident drills, RCAs, and res
 **Containers & Kubernetes:** Amazon EKS · AWS Load Balancer Controller (IRSA) · HPA autoscaling · ECS Fargate · Docker
 **IaC & CI/CD:** Terraform · GitHub Actions · OIDC (keyless) · branch protection
 **DevSecOps & Security:** IAM least privilege · KMS/SSE encryption · Secrets Manager · WAF · Checkov · tfsec · Trivy · gitleaks
-**Observability / SRE:** CloudWatch dashboards & alarms · X-Ray · Synthetics · RUM · SLOs & error budgets · incident response
-**Languages:** Python · Bash · SQL · C++ · C · JavaScript
+**Observability / SRE:** CloudWatch dashboards & alarms · X-Ray · Synthetics · RUM · SLOs & error budgets · incident response · production triage & runbooks · PostgreSQL diagnostics
+**Languages:** Python · Java · Bash · SQL · C++ · C · JavaScript
 
 ---
 
 ### 📜 Certifications
 
+- **AWS Certified DevOps Engineer – Professional** (DOP-C02) · issued Sep 2026, valid to Sep 2029
 - **AWS Certified Solutions Architect – Associate** (SAA-C03)
 - **AWS Certified Cloud Practitioner** (CLF-C02)
 
@@ -91,4 +112,4 @@ A day-2 operations lab (EC2 ASG + ALB + RDS) with incident drills, RCAs, and res
 
 ---
 
-<sub>Systems foundation: multithreaded C++, OpenMP, POSIX sockets, and performance benchmarking — the layer underneath the cloud work. Full write-ups (with the war stories) at <a href="https://abheenash.com">abheenash.com</a>.</sub>
+<sub>Full write-ups, with the war stories and the benchmarks behind every number above, at <a href="https://abheenash.com">abheenash.com</a>.</sub>
