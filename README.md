@@ -98,7 +98,7 @@ A multithreaded key-value server on **POSIX sockets**, thread-per-connection wit
 
 ### 📜 Certifications
 
-- **AWS Certified DevOps Engineer – Professional** (DOP-C02) · issued Sep 2026, valid to Sep 2029
+- **AWS Certified DevOps Engineer – Professional** (DOP-C02) — [verify](https://www.credly.com/badges/247b90b9-b578-46b1-b987-e778322017c3/public_url)
 - **AWS Certified Solutions Architect – Associate** (SAA-C03)
 - **AWS Certified Cloud Practitioner** (CLF-C02)
 
