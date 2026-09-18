@@ -98,9 +98,9 @@ A multithreaded key-value server on **POSIX sockets**, thread-per-connection wit
 
 ### 📜 Certifications
 
-- **AWS Certified DevOps Engineer – Professional** (DOP-C02) · Sep 2026 — [verify](https://www.credly.com/badges/247b90b9-b578-46b1-b987-e778322017c3/public_url)
-- **AWS Certified Solutions Architect – Associate** (SAA-C03) · Jul 2026 — [verify](https://www.credly.com/badges/e499fee9-1b8b-4fce-a65c-bc4ddcb2f8b9/public_url)
-- **AWS Certified Cloud Practitioner** (CLF-C02) · Jun 2026 — [verify](https://www.credly.com/badges/a9a04423-7b7b-4e75-99c9-8edb3488d9cb/public_url)
+- **AWS Certified DevOps Engineer – Professional** (DOP-C02) — [verify](https://www.credly.com/badges/247b90b9-b578-46b1-b987-e778322017c3/public_url)
+- **AWS Certified Solutions Architect – Associate** (SAA-C03) — [verify](https://www.credly.com/badges/e499fee9-1b8b-4fce-a65c-bc4ddcb2f8b9/public_url)
+- **AWS Certified Cloud Practitioner** (CLF-C02) — [verify](https://www.credly.com/badges/a9a04423-7b7b-4e75-99c9-8edb3488d9cb/public_url)
 
 ---
 
