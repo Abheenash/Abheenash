@@ -2,9 +2,9 @@
 
 # Hi, I'm Abheenash 👋
 
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&duration=3000&pause=800&color=FF9900&center=true&vCenter=true&width=760&lines=IT+Analyst+%E2%80%93+Application+Support+%40+Phillips+66;AWS+Certified+DevOps+Engineer+%E2%80%93+Professional;Cloud+operations+%C2%B7+Production+support+%C2%B7+Incident+response;Building%2C+operating+%26+diagnosing+AWS+%2B+Linux+systems)](https://abheenash.com)
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&duration=3000&pause=800&color=FF9900&center=true&vCenter=true&width=760&lines=AWS+Certified+DevOps+Engineer+%E2%80%93+Professional;Cloud+%C2%B7+DevOps+%C2%B7+Cloud+Security;Serverless+%C2%B7+Kubernetes+%C2%B7+GenAI+on+AWS;Building%2C+operating+%26+diagnosing+AWS+infrastructure)](https://abheenash.com)
 
-`Cloud Operations` · `Production Support` · `Incident Response` · `AWS` · `Linux` · `Terraform` · `CI/CD` · `Kubernetes` · `GenAI`
+`Cloud` · `DevOps` · `Cloud Security` · `Terraform` · `Serverless` · `Kubernetes` · `GenAI` · `CI/CD`
 
 <a href="https://abheenash.com"><img src="https://img.shields.io/badge/abheenash.com-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white" alt="Website"/></a>
 <a href="https://www.linkedin.com/in/abheenash"><img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/></a>
@@ -14,20 +14,7 @@
 
 </div>
 
-**IT Analyst – Application Support at Phillips 66** and **AWS Certified DevOps Engineer – Professional**. Cloud operations, production support, incident response, root-cause analysis and CI/CD on AWS and Linux — I keep 7 workplace applications running for ~13,000 employees and contractors, fix defects in Java, C++ and Perl, and build the tooling that finds problems before users report them. M.S. in Computer & Systems Engineering (University of Houston).
-
----
-
-### 💼 Experience
-
-**Phillips 66** — *IT Analyst, Application Support* · Houston, TX · Feb 2026 – present
-Support 7 workplace applications (contractor access, work permits, facility requests) for ~13,000 employees and contractors across refineries, terminals and offices, on AWS and on-prem RHEL. ~20 production tickets a month via Splunk and SQL against Oracle / SQL Server; 12 production defects fixed in Java, C++ and Perl — including a C++ memory leak in the site-access service, isolated with Valgrind and GDB. Splunk alerts + Terraform-managed CloudWatch alarms that caught 3 failures before users did. On-call one week in five. Built a nightly Java reconciliation job across Oracle, ISNetworld and SAP that cut gate-access tickets from ~12 to ~4 a month.
-
-**Cloudflare** — *Systems Engineering Intern* · Austin, TX · May – Aug 2025
-Built a Go service that audits on-call ownership and alert routing across ~120 internal services, exporting gaps as Prometheus metrics (31 services with missing/stale owners found; runbook + Grafana dashboard delivered). Found ~1,800 orphaned ownership records with read-only SQL against PostgreSQL and ClickHouse and wrote a cleanup with a tested rollback. Shadowed on-call for 6 weeks; coauthored 2 incident reports.
-
-**HCLTech** — *DevOps Engineer, AWS Cloud Operations* · Hyderabad, India · Apr 2022 – Dec 2023
-Supported a US client's AWS B2B platform (~300 business customers, ~3M API requests/day) on ECS Fargate, RDS and Linux. On-call one week in four; 10+ RCAs. Golden-signal and composite alarms cut pages per on-call week from ~30 to ~11. Automated release pipeline (~2 h → <20 min) and migrated ~150 hand-built resources into Terraform (env setup ~3 days → 90 min).
+**AWS Certified DevOps Engineer – Professional**, Solutions Architect – Associate & Cloud Practitioner — building, operating and diagnosing secure, reliable infrastructure on AWS.
 
 ---
 
@@ -99,16 +86,13 @@ A multithreaded key-value server on **POSIX sockets**, thread-per-connection wit
 <img src="https://img.shields.io/badge/Bash-4EAA25?style=for-the-badge&logo=gnubash&logoColor=white" alt="Bash"/>
 </p>
 
-**Operations:** Linux/Unix (RHEL) · incident response & on-call · root-cause analysis · runbooks · log analysis · query plans (EXPLAIN) · ServiceNow · Control-M · GDB · Valgrind · strace
-**Monitoring:** CloudWatch (alarms, dashboards, Synthetics, Logs Insights, RUM) · X-Ray · PagerDuty · Splunk · Prometheus · Grafana · SLOs · failure drills · restore testing
-**Cloud (AWS):** EC2 · ECS Fargate · EKS · ALB · S3 · VPC · IAM · KMS · Lambda · API Gateway · DynamoDB · Cognito · EventBridge · SQS · Step Functions · Systems Manager · SES · SNS · CloudFront · Route 53 · Secrets Manager · WAF · Bedrock
-**Databases:** PostgreSQL · RDS · MySQL · DynamoDB · Oracle · SQL Server · ClickHouse
+**Cloud (AWS):** Lambda · API Gateway · S3 · DynamoDB · Cognito · Bedrock · EventBridge · SQS · Step Functions · SES · SNS · EKS · ECS Fargate · ECR · VPC · ALB · CloudFront · Route 53 · KMS · Secrets Manager · IAM · WAF · CloudWatch · X-Ray · CloudTrail
 **GenAI:** Amazon Bedrock (Claude Sonnet 4.6 · Haiku · Opus) · AI résumé generation (structured JSON → LaTeX/PDF) · LLM classification & enrichment · JD↔résumé match scoring · RAG-style Q&A
 **Containers & Kubernetes:** Amazon EKS · AWS Load Balancer Controller (IRSA) · HPA autoscaling · ECS Fargate · Docker
-**IaC & CI/CD:** Terraform · GitHub Actions · OIDC (keyless) · branch protection · Docker · Kubernetes · CronJobs · systemd timers
+**IaC & CI/CD:** Terraform · GitHub Actions · OIDC (keyless) · branch protection
 **DevSecOps & Security:** IAM least privilege · KMS/SSE encryption · Secrets Manager · WAF · Checkov · tfsec · Trivy · gitleaks
-**Systems & Software:** TCP/IP · DNS · load balancing · auto scaling · caching · replication · Multi-AZ failover · OOP design · data structures & algorithms · multithreading · POSIX sockets · OpenMP
-**Languages:** Python (Boto3) · SQL · Java · Bash · C · C++ · JavaScript · Go · Ruby · Perl
+**Observability / SRE:** CloudWatch dashboards & alarms · X-Ray · Synthetics · RUM · SLOs & error budgets · incident response · production triage & runbooks · PostgreSQL diagnostics
+**Languages:** Python · Java · Bash · SQL · C++ · C · JavaScript
 
 ---
 
