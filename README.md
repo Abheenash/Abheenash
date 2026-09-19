@@ -30,42 +30,45 @@ An **AI-powered, full-stack serverless job-application tracker** built end-to-en
 
 ---
 
-### ☁️ More AWS projects — build → ship → operate
+### ☁️ More AWS projects — build → ship → operate → recover
+
+Every repo below has a test suite and CI (Linux + macOS where it applies, ThreadSanitizer/AddressSanitizer on the C++, checkov against a reviewed baseline on the Terraform). The numbers are measured, and the write-ups say what went wrong before it went right.
 
 **[Production Triage Toolkit](https://github.com/Abheenash/production-triage-toolkit)** — *diagnose before users do* · **Java**
-A Java 17 CLI that finds data drift, stuck jobs and database-health problems **before users report them** — 15 read-only SQL diagnostics against PostgreSQL, ranked by severity, each linked to a runbook that says how to confirm, fix, prevent and escalate. Safe to point at production by four independent layers, including asking the server `SHOW transaction_read_only` and closing the connection if the answer isn't `on`. **1,069 ms against 10 million rows** — and 1,228 ms on a single CPU. 163 tests, 5 CI criteria, shipped with validated systemd units, a Kubernetes CronJob and ECS/EventBridge Terraform. [Case study](https://github.com/Abheenash/production-triage-toolkit/blob/main/CASE_STUDY.md) — including the index that made it 4x *slower*.
-
-**[Serverless File Share](https://github.com/Abheenash/serverless-file-share)** — *build securely* · [live demo](https://share.abheenash.com)
-Zero-knowledge, self-destructing file & secret sharing. Payloads are **AES-256-GCM encrypted in the browser** (the key never touches the server), with SSE-KMS defense-in-depth and a DynamoDB **TTL → Streams reaper**. Terraform + keyless CI/CD.
-
-**[AWS EKS Platform](https://github.com/Abheenash/aws-eks-platform)** — *run on Kubernetes*
-Kubernetes on **Amazon EKS** via Terraform (official VPC + EKS modules), ALB Ingress (AWS Load Balancer Controller, IRSA), and CPU-based HPA autoscaling, delivered by keyless GitHub Actions CI/CD — proven with live drills (pod self-heal, HPA scale-out).
-
-**[Secure Container Pipeline](https://github.com/Abheenash/secure-container-pipeline)** — *ship securely*
-A containerized service on **ECS Fargate** behind a DevSecOps GitHub Actions pipeline (gitleaks · checkov/tfsec · trivy) that blocks insecure merges — proven by automatically blocking a PR carrying a planted secret. All Terraform.
+A Java 17 CLI that finds data drift, stuck jobs and database-health problems **before users report them** — 15 read-only SQL diagnostics against PostgreSQL, ranked by severity, each linked to a runbook. Safe to point at production by four independent layers, including asking the server `SHOW transaction_read_only` and closing the connection if the answer isn't `on`. **1,069 ms against 10 million rows.** New: `--compare` / `--history-dir` / `--fail-on-regression` — every check classified NEW / RESOLVED / WORSENED / IMPROVED / BROKE against the previous run, so a scheduled run pages only for what got worse. **172 tests**, 5 CI criteria including one that fails the build when the README stops being true. [Case study](https://github.com/Abheenash/production-triage-toolkit/blob/main/CASE_STUDY.md) — including the index that made it 4x *slower*.
 
 **[Cloud Observability & Incident Response](https://github.com/Abheenash/cloud-observability-sre)** — *operate reliably*
-X-Ray, RUM and Logs Insights on a live API Gateway/Lambda/DynamoDB service; SLOs, error budgets, a composite service-health alarm and an external Synthetics canary, all Terraform. Validated by setting Lambda concurrency to zero — **detected in ~60 s**, restored via the runbook.
+Golden signals, X-Ray, RUM, SLOs with error budgets and a composite health alarm on a live serverless service — plus **multi-window multi-burn-rate SLO alerts**, anomaly-detection alarms, and the failure drill as an **AWS Fault Injection Service experiment** whose stop condition *is* the health alarm (detection aborts the fault, so production can't be left broken). An automated drill measures instead of eyeballing: **induce → ALARM in 105 s**, restore → OK in 297 s. All Terraform, all applied.
 
 **[AWS Cloud Operations & Recovery Lab](https://github.com/Abheenash/aws-cloudops-lab)** — *day-2 ops*
-EC2 Auto Scaling + ALB + RDS PostgreSQL in Terraform with patching, log shipping, golden-signal alarms, runbooks and Boto3/Lambda automation. **5 live drills** (5xx in 177 s, latency in 289 s, DB dependency in 166 s; 2 alarm-tuning findings documented) and an RDS restore in **6 min 36 s** against a 60-minute target.
+EC2 Auto Scaling + ALB + RDS PostgreSQL in Terraform with patching, log shipping, golden-signal alarms, runbooks and Boto3/Lambda automation. **5 live drills** (5xx in 177 s, latency in 289 s, DB dependency in 166 s) and an RDS restore in **6 min 36 s** against a 60-minute target. The two drills that *didn't* fire became design changes: a degraded-capacity alarm (`HealthyHostCount < desired`) and an RDS connection threshold derived from the instance class's real ceiling. The non-prod scheduler is now infrastructure with scoped IAM and its own alarm; 12 moto-mocked tests.
 
-<sub>Also: **[portfolio-ai-assistant](https://github.com/Abheenash/portfolio-ai-assistant)** — a Bedrock (Claude) chatbot over my portfolio.</sub>
+**[Secure Container Pipeline](https://github.com/Abheenash/secure-container-pipeline)** — *ship securely*
+ECS Fargate in private subnets via VPC endpoints, ALB + WAF, least-privilege task roles, all Terraform — behind **four hard gates** (gitleaks · checkov/tfsec · trivy · the app's own pytest suite) enforced by branch protection, proven by a PR carrying a planted AWS credential landing in **merge state: BLOCKED**. Trivy also emits a **CycloneDX SBOM** and secret-scans the image; a gated CD job pushes to ECR and **signs the image by digest with keyless cosign**. Readiness (`/ready` = DynamoDB reachable) is separate from liveness, the ECS service has a deployment circuit breaker with automatic rollback and CPU autoscaling, and one variable turns on TLS 1.3 with an HTTP→HTTPS redirect.
+
+**[Serverless File Share](https://github.com/Abheenash/serverless-file-share)** — *build securely* · [live demo](https://share.abheenash.com)
+Zero-knowledge, self-destructing file & secret sharing. Payloads are **AES-256-GCM encrypted in the browser** (the key never touches the server), with SSE-KMS defense-in-depth and a DynamoDB **TTL → Streams reaper**. Hardened in v2: a filename could once write HTTP headers through the presigned `Content-Disposition` — now sanitised and RFC 5987-encoded, verified live; structured JSON logs; partial-batch failure reporting so one failed delete retries alone; 16 moto-backed tests covering the presigned PUT bound to the declared size, the atomic download cap and the password gate.
+
+**[AWS EKS Platform](https://github.com/Abheenash/aws-eks-platform)** — *run on Kubernetes*
+Kubernetes on **Amazon EKS** via Terraform, ALB Ingress under IRSA, CPU-based HPA, keyless GitHub Actions CI/CD — drilled live (pod self-heal in 7 s, HPA 2 → 6). The two honest findings are fixed and pinned by a CI policy check: the 502s during pod replacement (preStop drain + readiness 503 on SIGTERM + a 15 s deregistration delay) and the restart under load (CPU work moved to a child process; liveness, readiness and startup probes separated). PodDisruptionBudget, kubeconform strict validation, and a runtime image that ships no package manager at all.
+
+**[Portfolio AI Assistant](https://github.com/Abheenash/portfolio-ai-assistant)** — *build with GenAI* · the "Ask AI" widget on [abheenash.com](https://abheenash.com)
+API Gateway → Lambda → **Amazon Bedrock (Claude Haiku 4.5)**, the knowledge base in a cached system prompt instead of a vector DB. Every request emits CloudWatch EMF metrics — latency, tokens, cache reads, cost — so the numbers are read, not estimated: **4,000 cache-read tokens and $0.0015 per answer**. Origin allow-list enforced in the Lambda, alarms on errors / p95 / hourly spend, 24 tests with a fake Bedrock, and a committed **12-case prompt-injection eval** run against the live endpoint: 12/12.
 
 ---
 
 ### ⚙️ Systems & parallel C++ — the layer underneath
 
-**[Parallel Heat Diffusion](https://github.com/Abheenash/parallel-heat-diffusion)** — *std::thread vs OpenMP, head to head*
-A 2D finite-difference stencil on a double-buffered grid, parallelized two ways so the strategies can be benchmarked on identical inputs. Scales 1–8 threads with a **memory-bandwidth-bound analysis** explaining exactly where and why it plateaus.
+Rebuilt from single-file demos into real projects — each with CMake, a test suite that runs clean under **ThreadSanitizer and AddressSanitizer** in CI, and benchmarks that say where a design decision pays off *and where it doesn't*.
 
-**[Parallel Thread Pool](https://github.com/Abheenash/parallel-thread-pool)** — *producer–consumer*
-Persistent workers sleeping on a condition variable and waking on demand — no busy-waiting, graceful drain-and-join shutdown. **5.2x speedup at 8 threads**, with an identical checksum across every thread count proving no data races.
+**[Concurrent KV Store](https://github.com/Abheenash/concurrent-kv-store)** — *a Redis-style server on raw POSIX sockets*
+64-way sharded store under `std::shared_mutex` with TTLs, a newline-framed 22-command protocol, **append-only-file persistence** with replay, atomic-rename compaction and `always`/`everysec`/`no` fsync, two I/O models (thread-per-connection and N `poll()` reactors that each accept for themselves), `sigwait` shutdown, and a load generator with p50/p99. **5.09 M req/s** pipelined with shards vs 1.23 M with the old global mutex; 502/502 clients accepted at 500 concurrent. Its own tests found five real macOS/BSD socket bugs before the benchmark could run — all written up.
 
-**[Concurrent KV Store](https://github.com/Abheenash/concurrent-kv-store)** — *client–server over TCP*
-A multithreaded key-value server on **POSIX sockets**, thread-per-connection with mutex-protected shared state. `SET`/`GET` over the network from many clients at once.
+**[Parallel Thread Pool](https://github.com/Abheenash/parallel-thread-pool)** — *work-stealing scheduler, header-only*
+`submit()` → `std::future` with exception propagation, `parallel_for` whose calling thread *helps* so nested loops can't deadlock, backpressure, graceful shutdown. Per-worker deques with random-victim stealing; submitters only take the wake-up mutex when a sleeper count says someone is parked. **5.37× on 10 cores** compute-bound; spin-before-park took tiny tasks 0.60 → 1.98 M/s; the fork-join tree shows stealing's edge (4.24 vs 3.38 M tasks/s) — and the heavy-tailed benchmark shows where a global FIFO queue ties it, reported honestly.
 
-<sub>Contrast worth noting: the thread pool scales near-linearly because it is compute-bound; the stencil plateaus early on the same machine because it is memory-bound. Same hardware, opposite behaviour — which is the point.</sub>
+**[Parallel Heat Diffusion](https://github.com/Abheenash/parallel-heat-diffusion)** — *four backends, one measured roofline*
+Serial, spawn-per-step threads, persistent threads with a spinning barrier, and OpenMP on one flat grid — **320 backend/thread-count combinations bitwise-identical** to serial, plus physical invariants including exact mirror symmetry. A STREAM-style probe quantifies the wall: the 2000² grid reaches ~100 GB/s at 4 threads against a measured 98 GB/s ceiling, so the ~1.9× observed is the maximum possible; a cache-resident grid shows spawn-per-step *slower than serial* and the spin barrier lifting 2.14× → 2.89×.
 
 ---
 
@@ -90,9 +93,9 @@ A multithreaded key-value server on **POSIX sockets**, thread-per-connection wit
 **GenAI:** Amazon Bedrock (Claude Sonnet 4.6 · Haiku · Opus) · AI résumé generation (structured JSON → LaTeX/PDF) · LLM classification & enrichment · JD↔résumé match scoring · RAG-style Q&A
 **Containers & Kubernetes:** Amazon EKS · AWS Load Balancer Controller (IRSA) · HPA autoscaling · ECS Fargate · Docker
 **IaC & CI/CD:** Terraform · GitHub Actions · OIDC (keyless) · branch protection
-**DevSecOps & Security:** IAM least privilege · KMS/SSE encryption · Secrets Manager · WAF · Checkov · tfsec · Trivy · gitleaks
-**Observability / SRE:** CloudWatch dashboards & alarms · X-Ray · Synthetics · RUM · SLOs & error budgets · incident response · production triage & runbooks · PostgreSQL diagnostics
-**Languages:** Python · Java · Bash · SQL · C++ · C · JavaScript
+**DevSecOps & Security:** IAM least privilege · KMS/SSE encryption · Secrets Manager · WAF · Checkov · tfsec · Trivy · gitleaks · SBOM (CycloneDX) · cosign keyless signing · Dependabot
+**Observability / SRE:** CloudWatch dashboards & alarms · X-Ray · Synthetics · RUM · SLOs, error budgets & burn-rate alerts · anomaly detection · AWS Fault Injection Service · incident response · production triage & runbooks · PostgreSQL diagnostics
+**Languages:** Python · Java · Bash · SQL · C++ · C · JavaScript · Go · Ruby · Perl
 
 ---
 
