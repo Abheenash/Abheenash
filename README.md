@@ -1,30 +1,33 @@
 <div align="center">
 
-# Abheenash Rajolu
+# Hi, I'm Abheenash 👋
 
-**AWS Certified DevOps Engineer – Professional** · Cloud · DevOps · Platform · SRE
-Houston, TX · open to work
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&duration=3200&pause=900&color=FF9900&center=true&vCenter=true&width=780&lines=Every+number+here+was+measured%2C+not+estimated;Including+the+ones+that+didn't+flatter+me;Cloud+%C2%B7+DevOps+%C2%B7+Platform+%C2%B7+SRE+on+AWS;AWS+Certified+DevOps+Engineer+%E2%80%93+Professional)](https://abheenash.com)
 
-<!-- Kept on one line on purpose: a newline between these anchors becomes a <br> in GitHub
-     Flavored Markdown, which stacks the badges into a vertical column instead of a row. -->
-<a href="https://abheenash.com"><img src="https://img.shields.io/badge/abheenash.com-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white" alt="Website"/></a> <a href="https://www.linkedin.com/in/abheenash"><img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/></a> <a href="https://share.abheenash.com"><img src="https://img.shields.io/badge/Live_demo-232F3E?style=for-the-badge&logo=amazons3&logoColor=white" alt="Live demo"/></a> <a href="https://h1b.abheenash.com"><img src="https://img.shields.io/badge/H--1B_data-4169E1?style=for-the-badge&logo=databricks&logoColor=white" alt="H-1B sponsor data"/></a>
+`Cloud` · `DevOps` · `Cloud Security` · `Terraform` · `Kubernetes` · `Serverless` · `GenAI` · `CI/CD` · `Kafka` · `Spark`
+
+<a href="https://abheenash.com"><img src="https://img.shields.io/badge/abheenash.com-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white" alt="Website"/></a>
+<a href="https://www.linkedin.com/in/abheenash"><img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/></a>
+<a href="https://share.abheenash.com"><img src="https://img.shields.io/badge/Live_Demo-232F3E?style=for-the-badge&logo=amazons3&logoColor=white" alt="Live demo"/></a>
+<img src="https://img.shields.io/badge/📍_Houston,_TX-555?style=for-the-badge" alt="Houston, TX"/>
+<img src="https://img.shields.io/badge/🟢_Open_to_work-2ea043?style=for-the-badge" alt="Open to work"/>
 
 </div>
 
-Sixteen projects, every one tested and running in CI. The numbers below were measured on real
-hardware and real clusters — **including the ones that went against me, which are still in the
-READMEs.**
+**Sixteen projects, all tested and running in CI. The thing worth knowing about them is that
+the numbers were measured on real hardware and real clusters — and the measurements that went
+against me are still in the READMEs.**
 
 ---
 
 ## Four times I was wrong
 
-This is the part that says what I'm actually like to work with.
+Skip the rest of this page if you like. This is the part that says what I'm actually like to work with.
 
 | I expected | What happened | What I did about it |
 |---|---|---|
 | Adding the obvious index would speed up the slowest check | It made the run **slower** — the planner swapped one bulk hash join for 910,750 individual index probes | Rewrote it as a window function over a sorted pass: **2,147 ms → 526 ms**. Then measured index usage and deleted four indexes with zero scans (410 MB). [→](https://github.com/Abheenash/production-triage-toolkit/blob/main/docs/benchmark.md) |
-| My Kubernetes manifests were fine — every validator passed them | Running them on a free local cluster found **five bugs**, including an alert meant to catch total silence that **could never fire** (in that language, "no data at all" is not zero) | Fixed all five and published the run, including the counter-test where killing every replica at once still cost ~2 s — because no manifest can prevent that. [→](https://github.com/Abheenash/aws-eks-platform/blob/main/docs/drills/2026-09-24-kind-cluster.md) |
+| My Kubernetes manifests were fine — every validator passed them | Running them on a free local cluster found **five bugs**, including an alert meant to catch total silence that **could never fire** (in that language, "no data at all" is not zero) | Fixed all five and wrote up the run, including the counter-test where killing every replica at once still cost ~2 s — because no manifest can prevent that. [→](https://github.com/Abheenash/aws-eks-platform/blob/main/docs/drills/2026-09-24-kind-cluster.md) |
 | My five failure drills would trip five alarms | **Two never fired.** One couldn't: the autoscaler replaced the instance faster than the alarm's window. The other's threshold was 80 connections on a database whose real ceiling is ~87 | Both became different alarms — one on *healthy* host count, one at 70% of the instance class's actual limit. [→](https://github.com/Abheenash/aws-cloudops-lab) |
 | Work-stealing would beat a simple global queue | On heavy-tailed workloads it's a **tie** | Published the tie. A benchmark table that only shows the rows where you won isn't a benchmark. [→](https://github.com/Abheenash/parallel-thread-pool) |
 
@@ -39,10 +42,10 @@ Terraform-provisioned EKS: Karpenter on Spot instead of fixed node groups, Pod I
 Four gates that fail the build, plus keyless signing on the way to ECR. **[PR #1](https://github.com/Abheenash/secure-container-pipeline/pull/1) carried a deliberately planted AWS key and was blocked by two gates independently.** Tests run against both a mocked DynamoDB and a real one. The container ships without a package installer — and the instruction that removes it now fails the build if it ever stops working, because it used to fail *silently*.
 
 **[production-triage-toolkit](https://github.com/Abheenash/production-triage-toolkit)** — *Fifteen read-only database diagnostics, in Java*
-The problems support teams hear about from users — double bookings, ghost badges, stalled sync jobs, lock queues — each ranked, each with a runbook. **1,069 ms for all fifteen across 10 million rows.** Read-only is enforced on the server, not assumed. 178 tests, and a CI gate that fails the build if the README stops matching the code.
+The problems support teams hear about from users — double bookings, ghost badges, stalled sync jobs, lock queues — each ranked, each with a runbook. **1,069 ms for all fifteen across 10 million rows.** Read-only is enforced on the server, not assumed. 176 tests, and a CI gate that fails the build if the README stops matching the code.
 
 <details>
-<summary><b>The other thirteen</b></summary>
+<summary><b>The other thirteen</b> — click to expand</summary>
 
 <br>
 
@@ -54,7 +57,7 @@ The problems support teams hear about from users — double bookings, ghost badg
 - **[aws-landing-zone](https://github.com/Abheenash/aws-landing-zone)** — guardrails a workload can't undo: an account tree, five service control policies as plain JSON, deploy roles that trust only `main` of named repos. Each policy is run through a small permissions evaluator in tests — what it denies *and* what it must leave alone.
 
 **Build**
-- **[serverless-file-share](https://github.com/Abheenash/serverless-file-share)** · [live](https://share.abheenash.com) — files encrypted in the browser, the key living only in the URL fragment, so the backend stores something it cannot open. Tests send real HTTP to the signed upload link with no credentials, and check that the storage service itself refuses a tampered signature.
+- **[serverless-file-share](https://github.com/Abheenash/serverless-file-share)** · [live](https://share.abheenash.com) — files encrypted in the browser, the key living only in the URL fragment, so the backend stores something it cannot open. Tests now send real HTTP to the signed upload link with no credentials, and check that the storage service itself refuses a tampered signature.
 - **[job-hunt-command-center](https://github.com/Abheenash/job-hunt-command-center)** — a serverless job tracker I use daily. Generates a 2-page résumé from a job description via structured output, so it compiles and can't invent facts; classifies recruiter email through a queue-and-workflow pipeline.
 - **[portfolio-ai-assistant](https://github.com/Abheenash/portfolio-ai-assistant)** — the chat widget on my site. Every request logs its own cost, so the price is a graph: **$0.0015 per answer**. A 12-case prompt-injection eval is committed with its results.
 
@@ -74,27 +77,49 @@ The problems support teams hear about from users — double bookings, ghost badg
 
 ---
 
-## Skills
+### 🛠️ Tech
 
-| | |
-|---|---|
-| **Cloud** | AWS (primary) · Azure · GCP |
-| **Kubernetes** | EKS · Karpenter · Pod Identity · Argo CD · HPA · PodDisruptionBudget · NetworkPolicy · Helm · kind · OpenShift · ECS Fargate |
-| **IaC & CI/CD** | Terraform (incl. `terraform test` with mocked providers) · GitHub Actions · OIDC keyless deploys · Ansible · Jenkins · Docker |
-| **Observability & SRE** | CloudWatch · Prometheus & Grafana · Datadog · Splunk · X-Ray · SLOs, error budgets, burn-rate alerts · anomaly detection · AWS Fault Injection Service · runbooks & incident response |
-| **Security** | Least-privilege IAM · KMS · Organizations SCPs & permissions boundaries · Checkov · tfsec · Trivy · gitleaks · cosign · SBOM · SLSA provenance |
-| **Data & streaming** | PostgreSQL · DynamoDB · Apache Kafka (MSK Serverless, Redpanda) · Apache Spark / PySpark (EMR Serverless) |
-| **GenAI** | Amazon Bedrock (Claude) · structured output → LaTeX/PDF · prompt-injection evals · per-request cost metering |
-| **Languages** | Python · Java · C++ · SQL · Bash · JavaScript · Go |
-| **Testing** | pytest · moto · JUnit · LocalStack · DynamoDB Local · Firestore & Cosmos emulators · Redpanda · kind · ThreadSanitizer & AddressSanitizer |
+<p>
+<img src="https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=FF9900" alt="AWS"/>
+<img src="https://img.shields.io/badge/Amazon_Bedrock-232F3E?style=for-the-badge&logo=amazonaws&logoColor=FF9900" alt="Amazon Bedrock"/>
+<img src="https://img.shields.io/badge/Kubernetes_(EKS)-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white" alt="Kubernetes / EKS"/>
+<img src="https://img.shields.io/badge/Terraform-7B42BC?style=for-the-badge&logo=terraform&logoColor=white" alt="Terraform"/>
+<img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker"/>
+<img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white" alt="GitHub Actions"/>
+<img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python"/>
+<img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java"/>
+<img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL"/>
+<img src="https://img.shields.io/badge/C++-00599C?style=for-the-badge&logo=cplusplus&logoColor=white" alt="C++"/>
+<img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="Linux"/>
+<img src="https://img.shields.io/badge/Bash-4EAA25?style=for-the-badge&logo=gnubash&logoColor=white" alt="Bash"/>
+</p>
+
+**Cloud (AWS):** Lambda · API Gateway · S3 · DynamoDB · Cognito · Bedrock · EventBridge · SQS · Step Functions · SES · SNS · EKS · ECS Fargate · ECR · VPC · ALB · CloudFront · Route 53 · KMS · Secrets Manager · IAM · WAF · CloudWatch · X-Ray · CloudTrail
+**GenAI:** Amazon Bedrock (Claude Sonnet 4.6 · Haiku · Opus) · AI résumé generation (structured JSON → LaTeX/PDF) · LLM classification & enrichment · JD↔résumé match scoring · RAG-style Q&A
+**Containers & Kubernetes:** Amazon EKS · Karpenter · EKS Pod Identity · AWS Load Balancer Controller · Argo CD (GitOps) · HPA · PodDisruptionBudgets · NetworkPolicy · Helm · kind · OpenShift port · ECS Fargate · Azure Container Apps · Google Cloud Run · Docker
+**IaC & CI/CD:** Terraform (AWS, azurerm, google) · `terraform test` with mocked providers · GitHub Actions · OIDC (keyless) · pre-commit · branch protection
+**Multi-cloud:** Azure (Container Apps · Cosmos DB · ACR · managed identity) · GCP (Cloud Run · Firestore · Artifact Registry · workload identity federation)
+**Data & streaming:** Apache Kafka (MSK Serverless · Redpanda) · Apache Spark / PySpark (EMR Serverless) · DynamoDB · PostgreSQL
+**DevSecOps & Security:** IAM least privilege · KMS/SSE encryption · Secrets Manager · WAF · Checkov · tfsec · Trivy · gitleaks · SBOM (CycloneDX) · cosign keyless signing · Dependabot
+**Observability / SRE:** CloudWatch dashboards & alarms · Prometheus & Grafana (kube-prometheus-stack, ServiceMonitor, PrometheusRule) · Datadog · Splunk · X-Ray · Synthetics · RUM · SLOs, error budgets & burn-rate alerts · anomaly detection · AWS Fault Injection Service · incident response · production triage & runbooks · PostgreSQL diagnostics
+**Languages:** Python · Java · Bash · SQL · C++ · C · JavaScript · Go · Ruby · Perl
+**Testing:** pytest · moto · JUnit · testcontainers-style local services (LocalStack · DynamoDB Local · Firestore & Cosmos emulators · Redpanda · kind + Calico) · ThreadSanitizer & AddressSanitizer
 
 ---
 
-## Certifications
+### 📜 Certifications
 
 - **AWS Certified DevOps Engineer – Professional** (DOP-C02) — [verify](https://www.credly.com/badges/247b90b9-b578-46b1-b987-e778322017c3/public_url)
 - **AWS Certified Solutions Architect – Associate** (SAA-C03) — [verify](https://www.credly.com/badges/e499fee9-1b8b-4fce-a65c-bc4ddcb2f8b9/public_url)
 - **AWS Certified Cloud Practitioner** (CLF-C02) — [verify](https://www.credly.com/badges/a9a04423-7b7b-4e75-99c9-8edb3488d9cb/public_url)
+
+---
+
+<div align="center">
+
+<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Abheenash&layout=compact&theme=tokyonight&hide_border=true&langs_count=8" alt="Top Languages" height="150"/>
+
+</div>
 
 ---
 
